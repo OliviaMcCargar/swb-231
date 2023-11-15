@@ -1,0 +1,125 @@
+﻿raw_column,clean_column
+"[1] ""X.""                                                                                                                               ",PII_Response_ID
+"  [2] ""What.is.the.name.of.your.organization.""                                                                                           ",Q01_Org_Name
+"  [3] ""Where.are.your.headquarters.""                                                                                                     ",Q02_Org_Location
+"  [4] ""Name""                                                                                                                             ",Q03_PII_Respondent_Name
+"  [5] ""Email""                                                                                                                            ",Q04_PII_Respondent_Email
+"  [6] ""Phone""                                                                                                                            ",Q05_PII_Respondent_Phone
+"  [7] ""What.year.was.your.organization.founded.""                                                                                         ",Q06_Org_Year_Founded
+"  [8] ""Independent.Non.Governmental.Organization..e.g..association..501.c..registered.charity....""                                       ",Q07_Org_Type_Ind_NGO
+"  [9] ""Hosted.project..e.g..in.an.NGO.or.another.entity.""                                                                                ",Q07_Org_Type_Hosted_Proj
+" [10] ""Foundation""                                                                                                                       ",Q07_Org_Type_Foundation
+" [11] ""Commercial.entity""                                                                                                                ",Q07_Org_Type_Commercial_Ent
+" [12] ""Social.enterprise..e.g..B.corp..Co.op..CIC....""                                                                                   ",Q07_Org_Type_Social_Ent
+" [13] ""Other""                                                                                                                            ",Q07_Org_Type_Other
+" [14] ""If.other..please.comment.below""                                                                                                   ",Q07_Org_Type_Open_Response
+" [15] ""X0....200.000""                                                                                                                    ",TBD_1
+" [16] ""X200.001...500.000""                                                                                                               ",TBD_2
+" [17] ""X500.001...2.000.000""                                                                                                             ",TBD_3
+" [18] ""X2.000.001...5.million""                                                                                                           ",TBD_4
+" [19] ""X5.000.001...10.000.000""                                                                                                          ",TBD_5
+" [20] ""X10.000.000.""                                                                                                                     ",TBD_6
+" [21] ""Approximately..what.percentage.of.your.organization.s.total.revenue.was.related.to.H2H.services.in.2022..""                        ",TBD_7
+" [22] ""Institutional.donors""                                                                                                             ",TBD_8
+" [23] ""Sub.grants.from.NGOs.or.UN.agencies""                                                                                              ",TBD_9
+" [24] ""Foundations""                                                                                                                      ",TBD_10
+" [25] ""Membership.fees""                                                                                                                  ",TBD_11
+" [26] ""Funds..HIF..Start.etc..""                                                                                                          ",TBD_12
+" [27] ""Commercial.revenue""                                                                                                               ",TBD_13
+" [28] ""Other.1""                                                                                                                          ",TBD_14
+" [29] ""If.other..please.comment.below.1""                                                                                                 ",TBD_15
+" [30] ""X..Check.all.that.apply.""                                                                                                         ",TBD_16
+" [31] ""If.other..please.comment.below.""                                                                                                  ",TBD_17
+" [32] ""What.was.the.number.of.paid.employees.in.your.organization.during.2022.""                                                          ",TBD_18
+" [33] ""What.was.the.number.of.volunteers.in.your.organization.during.2022.""                                                              ",TBD_19
+" [34] ""None""                                                                                                                             ",TBD_20
+" [35] ""X..10.00...100.000""                                                                                                               ",TBD_21
+" [36] ""X.100.001....250.000""                                                                                                             ",TBD_22
+" [37] ""X.250.001....500.000""                                                                                                             ",TBD_23
+" [38] ""X.500.001..""                                                                                                                      ",TBD_24
+" [39] ""Please.select.yes.or.no""                                                                                                          ",TBD_25
+" [40] ""Please.provide.any.details""                                                                                                       ",TBD_26
+" [41] ""Global""                                                                                                                           ",TBD_27
+" [42] ""Europe""                                                                                                                           ",TBD_28
+" [43] ""Asia.and.the.Pacific""                                                                                                             ",TBD_29
+" [44] ""Latin.America.and.the.Caribbean""                                                                                                  ",TBD_30
+" [45] ""Middle.East.and.North.Africa""                                                                                                     ",TBD_31
+" [46] ""West.and.Central.Africa""                                                                                                          ",TBD_32
+" [47] ""Southern.and.Eastern.Africa""                                                                                                      ",TBD_33
+" [48] ""None.1""                                                                                                                           ",TBD_34
+" [49] ""Donors""                                                                                                                           ",TBD_35
+" [50] ""UN.agencies""                                                                                                                      ",TBD_36
+" [51] ""Red.Cross..Red.Crescent.Movement""                                                                                                 ",TBD_37
+" [52] ""International.NGOs""                                                                                                               ",TBD_38
+" [53] ""Local.and.national.organizations""                                                                                                 ",TBD_39
+" [54] ""Other.2""                                                                                                                          ",TBD_40
+" [55] ""Please.provide.details..for.example..do.you.have.partnerships.in.place..MoUs..or.contractual.sub.granting.agreements.""            ",TBD_41
+" [56] ""Please.rank""                                                                                                                      ",TBD_42
+" [57] ""Please.provide.any.details.1""                                                                                                     ",TBD_43
+" [58] ""Please.rank.1""                                                                                                                    ",TBD_44
+" [59] ""Member.of.the.Board""                                                                                                              ",TBD_45
+" [60] ""Regularly.participating.in.calls.and.workshops""                                                                                   ",TBD_46
+" [61] ""Engaging.with.the.Communications.Community.of.Practice.of.the.Impact.and.Learning.Advisory.Group""                                 ",TBD_47
+" [62] ""Participating.in.H2H.Network.organized.events.at.HNPW.or.elsewhere""                                                               ",TBD_48
+" [63] ""Other.3""                                                                                                                          ",TBD_49
+" [64] ""Please.add.any.details.about.your.engagement""                                                                                     ",TBD_50
+" [65] ""Please.select.yes.or.no.1""                                                                                                        ",TBD_51
+" [66] ""Formal.collaboration""                                                                                                             ",TBD_52
+" [67] ""Informal.collaboration""                                                                                                           ",TBD_53
+" [68] ""Please.add.any.details.on.your.collaboration..this.is.extremely.useful.information.for.us..""                                      ",TBD_54
+" [69] ""Fund.activation""                                                                                                                  ",TBD_55
+" [70] ""Community.of.practice""                                                                                                            ",TBD_56
+" [71] ""Events""                                                                                                                           ",TBD_57
+" [72] ""Webinar.and.calls""                                                                                                                ",TBD_58
+" [73] ""N.A""                                                                                                                              ",TBD_59
+" [74] ""Other.4""                                                                                                                          ",TBD_60
+" [75] ""If.other..please.specify..""                                                                                                       ",TBD_61
+" [76] ""X1.1.calls.or.email.exchanges.with.the.core.team""                                                                                 ",TBD_62
+" [77] ""Monthly.members..updates.general.emails""                                                                                          ",TBD_63
+" [78] ""Internal.members..hub..SharePoint.""                                                                                               ",TBD_64
+" [79] ""Community.of.Practice.slack.channel""                                                                                              ",TBD_65
+" [80] ""Crisis.watch.calls""                                                                                                               ",TBD_66
+" [81] ""Other.5""                                                                                                                          ",TBD_67
+" [82] ""If.other..please.specify...1""                                                                                                     ",TBD_68
+" [83] ""Would.you.like.to.propose.any.new.topics.for.communities.of.practice..learning.webinars.or.workshops..""                           ",TBD_69
+" [84] ""Would.you.like.to.make.any.other.suggestions.concerning.the.future.development.of.members..services.""                             ",TBD_70
+" [85] ""Please.select.yes.or.no.2""                                                                                                        ",TBD_71
+" [86] ""Please.provide.any.details.2""                                                                                                     ",TBD_72
+" [87] ""The.process.around.accessing.funding.is.unclear.to.you""                                                                           ",TBD_73
+" [88] ""The.crisis.covered.by.the.Fund.activations.do.not.align.with.your.operational.priorities.and.capacities""                          ",TBD_74
+" [89] ""Your.organization.had.other.sources.of.funding.for.your.response.to.the.crisis.covered.by.the.Fund""                               ",TBD_75
+" [90] ""The.timeframe.to.submit.a.project.proposal.is.too.short""                                                                          ",TBD_76
+" [91] ""The.process.around.submitting.an.application..narrative.proposal..budget..workplan...is.too.complex""                              ",TBD_77
+" [92] ""The.Due.Diligence.Assessment.required.to.access.the.fund.is.too.complex.or.time.consuming""                                        ",TBD_78
+" [93] ""The.amount.allocated.is.too.small""                                                                                                ",TBD_79
+" [94] ""The.timeframe.to.implemented.funded.projects.is.too.short""                                                                        ",TBD_80
+" [95] ""Other.6""                                                                                                                          ",TBD_81
+" [96] ""If.other..please.specify...2""                                                                                                     ",TBD_82
+" [97] ""Please.select.yes.or.no.3""                                                                                                        ",TBD_83
+" [98] ""Please.add.any.details""                                                                                                           ",TBD_84
+" [99] ""Please.rank.2""                                                                                                                    ",TBD_85
+"[100] ""Please.provide.any.comments""                                                                                                      ",TBD_86
+"[101] ""Please.rank.3""                                                                                                                    ",TBD_87
+"[102] ""Please.provide.any.comments.1""                                                                                                    ",TBD_88
+"[103] ""Would.you.like.to.make.any.other.suggestions.concerning.the.future.development.of.the.fund.or.directions.that.it.could.take.""     ",TBD_89
+"[104] ""Please.select.yes.or.no.4""                                                                                                        ",TBD_90
+"[105] ""Please.share.any.details.on.your.perception.of.others..awareness.of.the.H2H.Network""                                              ",TBD_91
+"[106] ""How.do.you.communicate.to.operational.agencies..donors.and.local.national.actors.about.the.H2H.Network.and.your.role.as.a.member.""",TBD_92
+"[107] ""Please.rank.the.three.alternatives.in.order.of.effectiveness""                                                                     ",TBD_93
+"[108] ""If.any.comments..please.provide.below.""                                                                                           ",TBD_94
+"[109] ""Social.media""                                                                                                                     ",TBD_95
+"[110] ""Website""                                                                                                                          ",TBD_96
+"[111] ""Public.newsletter""                                                                                                                ",TBD_97
+"[112] ""Events.1""                                                                                                                         ",TBD_98
+"[113] ""Other.7""                                                                                                                          ",TBD_99
+"[114] ""If.other..please.comment.below..1""                                                                                                ",TBD_100
+"[115] ""Communications.package""                                                                                                           ",TBD_101
+"[116] ""Brokering.with.stakeholders..end.users..donors..partners..""                                                                       ",TBD_102
+"[117] ""Deployment""                                                                                                                       ",TBD_103
+"[118] ""Other.8""                                                                                                                          ",TBD_104
+"[119] ""If.other..please.comment.below..2""                                                                                                ",TBD_105
+"[120] ""Would.you.like.to.make.any.other.suggestions.concerning.the.H2H.Network.s.brokering.and.facilitation.activities...""               ",TBD_106
+"[121] ""Start.Date..UTC.""                                                                                                                 ",TBD_107
+"[122] ""Submit.Date..UTC.""                                                                                                                ",TBD_108
+"[123] ""Network.ID""                                                                                                                       ",TBD_109
+"[124] ""Tags""  ",TBD_110
