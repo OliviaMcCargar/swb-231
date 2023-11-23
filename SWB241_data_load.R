@@ -28,3 +28,12 @@ results_2023 <- results_2023 %>%
 
 # Remove false header row generated from output
 results_2019 <- results_2019[-1,]
+
+# TODO 
+
+# Function for squishing responses in a column to 1 or 0, passing in name of column
+# Calling function with list of multi-valid questions
+
+# Assigning classes to some of the open responses with overlap in 2023 and 2019 surveys
+
+# Pulling out a rank score in SQ16_Rank_External_Engagement_Approach in 2023 survey
