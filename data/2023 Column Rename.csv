@@ -1,125 +1,125 @@
-﻿raw_column,clean_column
-"[1] ""X.""                                                                                                                               ",PII_Response_ID
-"  [2] ""What.is.the.name.of.your.organization.""                                                                                           ",Q01_Org_Name
-"  [3] ""Where.are.your.headquarters.""                                                                                                     ",Q02_Org_Location
-"  [4] ""Name""                                                                                                                             ",Q03_PII_Respondent_Name
-"  [5] ""Email""                                                                                                                            ",Q04_PII_Respondent_Email
-"  [6] ""Phone""                                                                                                                            ",Q05_PII_Respondent_Phone
-"  [7] ""What.year.was.your.organization.founded.""                                                                                         ",Q06_Org_Year_Founded
-"  [8] ""Independent.Non.Governmental.Organization..e.g..association..501.c..registered.charity....""                                       ",Q07_Org_Type_Ind_NGO
-"  [9] ""Hosted.project..e.g..in.an.NGO.or.another.entity.""                                                                                ",Q07_Org_Type_Hosted_Proj
-" [10] ""Foundation""                                                                                                                       ",Q07_Org_Type_Foundation
-" [11] ""Commercial.entity""                                                                                                                ",Q07_Org_Type_Commercial_Ent
-" [12] ""Social.enterprise..e.g..B.corp..Co.op..CIC....""                                                                                   ",Q07_Org_Type_Social_Ent
-" [13] ""Other""                                                                                                                            ",Q07_Org_Type_Other
-" [14] ""If.other..please.comment.below""                                                                                                   ",Q07_Org_Type_Open_Response
-" [15] ""X0....200.000""                                                                                                                    ",Q08_Org_Revenue_0_200000
-" [16] ""X200.001...500.000""                                                                                                               ",Q08_Org_Revenue_200001_500000
-" [17] ""X500.001...2.000.000""                                                                                                             ",Q08_Org_Revenue_500001_2000000
-" [18] ""X2.000.001...5.million""                                                                                                           ",Q08_Org_Revenue_2000001_5000000
-" [19] ""X5.000.001...10.000.000""                                                                                                          ",Q08_Org_Revenue_5000001_10000000
-" [20] ""X10.000.000.""                                                                                                                     ",Q08_Org_Revenue_1000000_Plus
-" [21] ""Approximately..what.percentage.of.your.organization.s.total.revenue.was.related.to.H2H.services.in.2022..""                        ",Q09_Percent_H2H_Work_Open_Response
-" [22] ""Institutional.donors""                                                                                                             ",Q10_Funding_Source_Inst_Donor
-" [23] ""Sub.grants.from.NGOs.or.UN.agencies""                                                                                              ",Q10_Funding_Source_Sub_Grant
-" [24] ""Foundations""                                                                                                                      ",Q10_Funding_Source_Foundations
-" [25] ""Membership.fees""                                                                                                                  ",Q10_Funding_Source_Membership_Fees
-" [26] ""Funds..HIF..Start.etc..""                                                                                                          ",Q10_Funding_Source_Funds
-" [27] ""Commercial.revenue""                                                                                                               ",Q10_Funding_Source_Commercial
-" [28] ""Other.1""                                                                                                                          ",Q10_Funding_Source_Other
-" [29] ""If.other..please.comment.below.1""                                                                                                 ",Q10_Funding_Source_Open_Response
-" [30] ""X..Check.all.that.apply.""                                                                                                         ",Q11_Insitutional_Donors
-" [31] ""If.other..please.comment.below.""                                                                                                  ",Q11_Insitutional_Donors_Open_Response
-" [32] ""What.was.the.number.of.paid.employees.in.your.organization.during.2022.""                                                          ",Q12_Num_Paid_Employees_Open_Response
-" [33] ""What.was.the.number.of.volunteers.in.your.organization.during.2022.""                                                              ",Q13_Num_Volunteers_Open_Response
-" [34] ""None""                                                                                                                             ",Q14_Grants_Received_None
-" [35] ""X..10.00...100.000""                                                                                                               ",Q14_Grants_Received_Range_10000_100000
-" [36] ""X.100.001....250.000""                                                                                                             ",Q14_Grants_Received_Range_100001_250000
-" [37] ""X.250.001....500.000""                                                                                                             ",Q14_Grants_Received_Range_250001_500000
-" [38] ""X.500.001..""                                                                                                                      ",Q14_Grants_Received_Range_500001_Plus
-" [39] ""Please.select.yes.or.no""                                                                                                          ",Q15_Org_Deploy_To_Crisis
-" [40] ""Please.provide.any.details""                                                                                                       ",Q15_Org_Deploy_To_Crisis_Open_Response
-" [41] ""Global""                                                                                                                           ",Q16_Org_Geographic_Projects_Global
-" [42] ""Europe""                                                                                                                           ",Q16_Org_Geographic_Projects_Europe
-" [43] ""Asia.and.the.Pacific""                                                                                                             ",Q16_Org_Geographic_Projects_API
-" [44] ""Latin.America.and.the.Caribbean""                                                                                                  ",Q16_Org_Geographic_Projects_Latin_America
-" [45] ""Middle.East.and.North.Africa""                                                                                                     ",Q16_Org_Geographic_Projects_Middle_East
-" [46] ""West.and.Central.Africa""                                                                                                          ",Q16_Org_Geographic_Projects_West_Central_Africa
-" [47] ""Southern.and.Eastern.Africa""                                                                                                      ",Q16_Org_Geographic_Projects_Southern_Eastern_Africa
-" [48] ""None.1""                                                                                                                           ",Q16_Org_Geographic_Projects_None
-" [49] ""Donors""                                                                                                                           ",Q17_Org_End_User_Donors
-" [50] ""UN.agencies""                                                                                                                      ",Q17_Org_End_User_UN_Agencies
-" [51] ""Red.Cross..Red.Crescent.Movement""                                                                                                 ",Q17_Org_End_User_Red_Cross
-" [52] ""International.NGOs""                                                                                                               ",Q17_Org_End_User_International_NGO
-" [53] ""Local.and.national.organizations""                                                                                                 ",Q17_Org_End_User_Local_National_Org
-" [54] ""Other.2""                                                                                                                          ",Q17_Org_End_User_Other
-" [55] ""Please.provide.details..for.example..do.you.have.partnerships.in.place..MoUs..or.contractual.sub.granting.agreements.""            ",Q17_Org_End_User_Open_Response
-" [56] ""Please.rank""                                                                                                                      ",SQ01_H2H_Network_Satisfaction
-" [57] ""Please.provide.any.details.1""                                                                                                     ",SQ01_H2H_Network_Satisfaction_Open_Response
-" [58] ""Please.rank.1""                                                                                                                    ",SQ02_Level_Involvement
-" [59] ""Member.of.the.Board""                                                                                                              ",SQ02_Level_Involvement_Type_Board_Member
-" [60] ""Regularly.participating.in.calls.and.workshops""                                                                                   ",SQ02_Level_Involvement_Type_Calls_Workshops
-" [61] ""Engaging.with.the.Communications.Community.of.Practice.of.the.Impact.and.Learning.Advisory.Group""                                 ",SQ02_Level_Involvement_Type_Community_Of_Practice
-" [62] ""Participating.in.H2H.Network.organized.events.at.HNPW.or.elsewhere""                                                               ",SQ02_Level_Involvement_Type_Network_Events
-" [63] ""Other.3""                                                                                                                          ",SQ02_Level_Involvement_Type_Other
-" [64] ""Please.add.any.details.about.your.engagement""                                                                                     ",SQ02_Level_Involvement_Open_Response
-" [65] ""Please.select.yes.or.no.1""                                                                                                        ",SQ03_Collaborated_With_Other_H2H_Member
-" [66] ""Formal.collaboration""                                                                                                             ",SQ03_Collaborated_With_Other_H2H_Member_Type_Formal
-" [67] ""Informal.collaboration""                                                                                                           ",SQ03_Collaborated_With_Other_H2H_Member_Type_Informal
-" [68] ""Please.add.any.details.on.your.collaboration..this.is.extremely.useful.information.for.us..""                                      ",SQ03_Collaborated_With_Other_H2H_Member_Open_Response
-" [69] ""Fund.activation""                                                                                                                  ",SQ04_H2H_Facilitated_Collab_Type_Fund_Activation
-" [70] ""Community.of.practice""                                                                                                            ",SQ04_H2H_Facilitated_Collab_Type_Community_Of_Practice
-" [71] ""Events""                                                                                                                           ",SQ04_H2H_Facilitated_Collab_Type_Events
-" [72] ""Webinar.and.calls""                                                                                                                ",SQ04_H2H_Facilitated_Collab_Type_Webinars
-" [73] ""N.A""                                                                                                                              ",SQ04_H2H_Facilitated_Collab_Type_Not_Applicable
-" [74] ""Other.4""                                                                                                                          ",SQ04_H2H_Facilitated_Collab_Type_Other
-" [75] ""If.other..please.specify..""                                                                                                       ",SQ04_H2H_Facilitated_Collab_Open_Response
-" [76] ""X1.1.calls.or.email.exchanges.with.the.core.team""                                                                                 ",SQ05_Network_Engagement_Type_Calls_Emails
-" [77] ""Monthly.members..updates.general.emails""                                                                                          ",SQ05_Network_Engagement_Type_Monthly_Updates
-" [78] ""Internal.members..hub..SharePoint.""                                                                                               ",SQ05_Network_Engagement_Type_Sharepoint
-" [79] ""Community.of.Practice.slack.channel""                                                                                              ",SQ05_Network_Engagement_Type_Slack
-" [80] ""Crisis.watch.calls""                                                                                                               ",SQ05_Network_Engagement_Type_Crisis_Watch_Calls
-" [81] ""Other.5""                                                                                                                          ",SQ05_Network_Engagement_Type_Other
-" [82] ""If.other..please.specify...1""                                                                                                     ",SQ05_Network_Engagement_Open_Response
-" [83] ""Would.you.like.to.propose.any.new.topics.for.communities.of.practice..learning.webinars.or.workshops..""                           ",SQ06_Community_Of_Practice_Suggestions_Open_Response
-" [84] ""Would.you.like.to.make.any.other.suggestions.concerning.the.future.development.of.members..services.""                             ",SQ07_Member_Services_Suggestions_Open_Response
-" [85] ""Please.select.yes.or.no.2""                                                                                                        ",SQ08_Applied_For_H2H_Fund
-" [86] ""Please.provide.any.details.2""                                                                                                     ",SQ08_Applied_For_H2H_Fund_Open_Response
-" [87] ""The.process.around.accessing.funding.is.unclear.to.you""                                                                           ",SQ09_Avoided_H2H_Fund_Reason_Type_Unclear_Process
-" [88] ""The.crisis.covered.by.the.Fund.activations.do.not.align.with.your.operational.priorities.and.capacities""                          ",SQ09_Avoided_H2H_Fund_Reason_Type_Misaligned_Priorities_Capacities
-" [89] ""Your.organization.had.other.sources.of.funding.for.your.response.to.the.crisis.covered.by.the.Fund""                               ",SQ09_Avoided_H2H_Fund_Reason_Type_Alternate_Funding
-" [90] ""The.timeframe.to.submit.a.project.proposal.is.too.short""                                                                          ",SQ09_Avoided_H2H_Fund_Reason_Type_Submission_Timeframe_Short
-" [91] ""The.process.around.submitting.an.application..narrative.proposal..budget..workplan...is.too.complex""                              ",SQ09_Avoided_H2H_Fund_Reason_Type_Complex_Process
-" [92] ""The.Due.Diligence.Assessment.required.to.access.the.fund.is.too.complex.or.time.consuming""                                        ",SQ09_Avoided_H2H_Fund_Reason_Type_Due_Dilligence_Assessment
-" [93] ""The.amount.allocated.is.too.small""                                                                                                ",SQ09_Avoided_H2H_Fund_Reason_Type_Amount_Small
-" [94] ""The.timeframe.to.implemented.funded.projects.is.too.short""                                                                        ",SQ09_Avoided_H2H_Fund_Reason_Type_Implment_Timeframe_Short
-" [95] ""Other.6""                                                                                                                          ",SQ09_Avoided_H2H_Fund_Reason_Type_Other
-" [96] ""If.other..please.specify...2""                                                                                                     ",SQ09_Avoided_H2H_Fund_Reason_Open_Response
-" [97] ""Please.select.yes.or.no.3""                                                                                                        ",SQ10_H2H_Fund_Rejection_Feedback_Useful
-" [98] ""Please.add.any.details""                                                                                                           ",SQ10_H2H_Fund_Rejection_Feedback_Useful_Open_Response
-" [99] ""Please.rank.2""                                                                                                                    ",SQ11_Grant_Panel_Assessment_Decision_Process
-"[100] ""Please.provide.any.comments""                                                                                                      ",SQ11_Grant_Panel_Assessment_Decision_Process_Open_Response
-"[101] ""Please.rank.3""                                                                                                                    ",SQ12_Grant_Support_Provided
-"[102] ""Please.provide.any.comments.1""                                                                                                    ",SQ12_Grant_Support_Provided_Open_Response
-"[103] ""Would.you.like.to.make.any.other.suggestions.concerning.the.future.development.of.the.fund.or.directions.that.it.could.take.""     ",SQ13_Fund_Development_Suggestions_Open_Response
-"[104] ""Please.select.yes.or.no.4""                                                                                                        ",SQ14_Greater_Awareness_Of_Network
-"[105] ""Please.share.any.details.on.your.perception.of.others..awareness.of.the.H2H.Network""                                              ",SQ14_Greater_Awareness_Of_Network_Open_Response
-"[106] ""How.do.you.communicate.to.operational.agencies..donors.and.local.national.actors.about.the.H2H.Network.and.your.role.as.a.member.""",SQ15_How_Communicate_About_H2H
-"[107] ""Please.rank.the.three.alternatives.in.order.of.effectiveness""                                                                     ",SQ16_Rank_External_Engagement_Approach
-"[108] ""If.any.comments..please.provide.below.""                                                                                           ",SQ16_Rank_External_Engagement_Approach_Open_Response
-"[109] ""Social.media""                                                                                                                     ",SQ17_External_Network_Engagement_Type_Social_Media
-"[110] ""Website""                                                                                                                          ",SQ17_External_Network_Engagement_Type_Website
-"[111] ""Public.newsletter""                                                                                                                ",SQ17_External_Network_Engagement_Type_Newsletter
-"[112] ""Events.1""                                                                                                                         ",SQ17_External_Network_Engagement_Type_Events
-"[113] ""Other.7""                                                                                                                          ",SQ17_External_Network_Engagement_Type_Other
-"[114] ""If.other..please.comment.below..1""                                                                                                ",SQ17_External_Network_Engagement_Open_Response
-"[115] ""Communications.package""                                                                                                           ",SQ18_Fund_Activation_External_Enagagement_Type_Comms_Package
-"[116] ""Brokering.with.stakeholders..end.users..donors..partners..""                                                                       ",SQ18_Fund_Activation_External_Enagagement_Type_Stakeholder_Brokering
-"[117] ""Deployment""                                                                                                                       ",SQ18_Fund_Activation_External_Enagagement_Type_Deployment
-"[118] ""Other.8""                                                                                                                          ",SQ18_Fund_Activation_External_Enagagement_Type_Other
-"[119] ""If.other..please.comment.below..2""                                                                                                ",SQ18_Fund_Activation_External_Enagagement_Open_Response
-"[120] ""Would.you.like.to.make.any.other.suggestions.concerning.the.H2H.Network.s.brokering.and.facilitation.activities...""               ",SQ19_H2H_Brokering_Facilitation_Suggestions_Open_Response
-"[121] ""Start.Date..UTC.""                                                                                                                 ",PII_Survey_Start
-"[122] ""Submit.Date..UTC.""                                                                                                                ",PII_Survey_Finish
-"[123] ""Network.ID""                                                                                                                       ",PII_Network_ID
-"[124] ""Tags""  ",PII_Empty_Tags
+﻿raw_column,clean_column,multi_valid,remove_column
+"[1] ""X.""                                                                                                                               ",PII_Response_ID,no,no
+"  [2] ""What.is.the.name.of.your.organization.""                                                                                           ",Q01_Org_Name,no,no
+"  [3] ""Where.are.your.headquarters.""                                                                                                     ",Q02_Org_Location,no,no
+"  [4] ""Name""                                                                                                                             ",Q03_PII_Respondent_Name,no,no
+"  [5] ""Email""                                                                                                                            ",Q04_PII_Respondent_Email,no,no
+"  [6] ""Phone""                                                                                                                            ",Q05_PII_Respondent_Phone,no,no
+"  [7] ""What.year.was.your.organization.founded.""                                                                                         ",Q06_Org_Year_Founded,no,no
+"  [8] ""Independent.Non.Governmental.Organization..e.g..association..501.c..registered.charity....""                                       ",Q07_Org_Type_Ind_NGO,yes,no
+"  [9] ""Hosted.project..e.g..in.an.NGO.or.another.entity.""                                                                                ",Q07_Org_Type_Hosted_Proj,yes,no
+" [10] ""Foundation""                                                                                                                       ",Q07_Org_Type_Foundation,yes,no
+" [11] ""Commercial.entity""                                                                                                                ",Q07_Org_Type_Commercial_Ent,yes,no
+" [12] ""Social.enterprise..e.g..B.corp..Co.op..CIC....""                                                                                   ",Q07_Org_Type_Social_Ent,yes,no
+" [13] ""Other""                                                                                                                            ",Q07_Org_Type_Other,yes,no
+" [14] ""If.other..please.comment.below""                                                                                                   ",Q07_Org_Type_Open_Response,no,no
+" [15] ""X0....200.000""                                                                                                                    ",Q08_Org_Revenue_0_200000,yes,no
+" [16] ""X200.001...500.000""                                                                                                               ",Q08_Org_Revenue_200001_500000,yes,no
+" [17] ""X500.001...2.000.000""                                                                                                             ",Q08_Org_Revenue_500001_2000000,yes,no
+" [18] ""X2.000.001...5.million""                                                                                                           ",Q08_Org_Revenue_2000001_5000000,yes,no
+" [19] ""X5.000.001...10.000.000""                                                                                                          ",Q08_Org_Revenue_5000001_10000000,yes,no
+" [20] ""X10.000.000.""                                                                                                                     ",Q08_Org_Revenue_1000000_Plus,yes,no
+" [21] ""Approximately..what.percentage.of.your.organization.s.total.revenue.was.related.to.H2H.services.in.2022..""                        ",Q09_Percent_H2H_Work_Open_Response,no,no
+" [22] ""Institutional.donors""                                                                                                             ",Q10_Funding_Source_Inst_Donor,yes,no
+" [23] ""Sub.grants.from.NGOs.or.UN.agencies""                                                                                              ",Q10_Funding_Source_Sub_Grant,yes,no
+" [24] ""Foundations""                                                                                                                      ",Q10_Funding_Source_Foundations,yes,no
+" [25] ""Membership.fees""                                                                                                                  ",Q10_Funding_Source_Membership_Fees,yes,no
+" [26] ""Funds..HIF..Start.etc..""                                                                                                          ",Q10_Funding_Source_Funds,yes,no
+" [27] ""Commercial.revenue""                                                                                                               ",Q10_Funding_Source_Commercial,yes,no
+" [28] ""Other.1""                                                                                                                          ",Q10_Funding_Source_Other,yes,no
+" [29] ""If.other..please.comment.below.1""                                                                                                 ",Q10_Funding_Source_Open_Response,no,no
+" [30] ""X..Check.all.that.apply.""                                                                                                         ",Q11_Insitutional_Donors,no,no
+" [31] ""If.other..please.comment.below.""                                                                                                  ",Q11_Insitutional_Donors_Open_Response,no,no
+" [32] ""What.was.the.number.of.paid.employees.in.your.organization.during.2022.""                                                          ",Q12_Num_Paid_Employees_Open_Response,no,no
+" [33] ""What.was.the.number.of.volunteers.in.your.organization.during.2022.""                                                              ",Q13_Num_Volunteers_Open_Response,no,no
+" [34] ""None""                                                                                                                             ",Q14_Grants_Received_None,yes,no
+" [35] ""X..10.00...100.000""                                                                                                               ",Q14_Grants_Received_Range_10000_100000,yes,no
+" [36] ""X.100.001....250.000""                                                                                                             ",Q14_Grants_Received_Range_100001_250000,yes,no
+" [37] ""X.250.001....500.000""                                                                                                             ",Q14_Grants_Received_Range_250001_500000,yes,no
+" [38] ""X.500.001..""                                                                                                                      ",Q14_Grants_Received_Range_500001_Plus,yes,no
+" [39] ""Please.select.yes.or.no""                                                                                                          ",Q15_Org_Deploy_To_Crisis,no,no
+" [40] ""Please.provide.any.details""                                                                                                       ",Q15_Org_Deploy_To_Crisis_Open_Response,no,no
+" [41] ""Global""                                                                                                                           ",Q16_Org_Geographic_Projects_Global,yes,no
+" [42] ""Europe""                                                                                                                           ",Q16_Org_Geographic_Projects_Europe,yes,no
+" [43] ""Asia.and.the.Pacific""                                                                                                             ",Q16_Org_Geographic_Projects_API,yes,no
+" [44] ""Latin.America.and.the.Caribbean""                                                                                                  ",Q16_Org_Geographic_Projects_Latin_America,yes,no
+" [45] ""Middle.East.and.North.Africa""                                                                                                     ",Q16_Org_Geographic_Projects_Middle_East,yes,no
+" [46] ""West.and.Central.Africa""                                                                                                          ",Q16_Org_Geographic_Projects_West_Central_Africa,yes,no
+" [47] ""Southern.and.Eastern.Africa""                                                                                                      ",Q16_Org_Geographic_Projects_Southern_Eastern_Africa,yes,no
+" [48] ""None.1""                                                                                                                           ",Q16_Org_Geographic_Projects_None,yes,no
+" [49] ""Donors""                                                                                                                           ",Q17_Org_End_User_Donors,yes,no
+" [50] ""UN.agencies""                                                                                                                      ",Q17_Org_End_User_UN_Agencies,yes,no
+" [51] ""Red.Cross..Red.Crescent.Movement""                                                                                                 ",Q17_Org_End_User_Red_Cross,yes,no
+" [52] ""International.NGOs""                                                                                                               ",Q17_Org_End_User_International_NGO,yes,no
+" [53] ""Local.and.national.organizations""                                                                                                 ",Q17_Org_End_User_Local_National_Org,yes,no
+" [54] ""Other.2""                                                                                                                          ",Q17_Org_End_User_Other,yes,no
+" [55] ""Please.provide.details..for.example..do.you.have.partnerships.in.place..MoUs..or.contractual.sub.granting.agreements.""            ",Q17_Org_End_User_Open_Response,no,no
+" [56] ""Please.rank""                                                                                                                      ",SQ01_H2H_Network_Satisfaction,no,no
+" [57] ""Please.provide.any.details.1""                                                                                                     ",SQ01_H2H_Network_Satisfaction_Open_Response,no,no
+" [58] ""Please.rank.1""                                                                                                                    ",SQ02_Level_Involvement,no,no
+" [59] ""Member.of.the.Board""                                                                                                              ",SQ02_Level_Involvement_Type_Board_Member,yes,no
+" [60] ""Regularly.participating.in.calls.and.workshops""                                                                                   ",SQ02_Level_Involvement_Type_Calls_Workshops,yes,no
+" [61] ""Engaging.with.the.Communications.Community.of.Practice.of.the.Impact.and.Learning.Advisory.Group""                                 ",SQ02_Level_Involvement_Type_Community_Of_Practice,yes,no
+" [62] ""Participating.in.H2H.Network.organized.events.at.HNPW.or.elsewhere""                                                               ",SQ02_Level_Involvement_Type_Network_Events,yes,no
+" [63] ""Other.3""                                                                                                                          ",SQ02_Level_Involvement_Type_Other,yes,no
+" [64] ""Please.add.any.details.about.your.engagement""                                                                                     ",SQ02_Level_Involvement_Open_Response,no,no
+" [65] ""Please.select.yes.or.no.1""                                                                                                        ",SQ03_Collaborated_With_Other_H2H_Member,no,no
+" [66] ""Formal.collaboration""                                                                                                             ",SQ03_Collaborated_With_Other_H2H_Member_Type_Formal,yes,no
+" [67] ""Informal.collaboration""                                                                                                           ",SQ03_Collaborated_With_Other_H2H_Member_Type_Informal,yes,no
+" [68] ""Please.add.any.details.on.your.collaboration..this.is.extremely.useful.information.for.us..""                                      ",SQ03_Collaborated_With_Other_H2H_Member_Open_Response,no,no
+" [69] ""Fund.activation""                                                                                                                  ",SQ04_H2H_Facilitated_Collab_Type_Fund_Activation,yes,no
+" [70] ""Community.of.practice""                                                                                                            ",SQ04_H2H_Facilitated_Collab_Type_Community_Of_Practice,yes,no
+" [71] ""Events""                                                                                                                           ",SQ04_H2H_Facilitated_Collab_Type_Events,yes,no
+" [72] ""Webinar.and.calls""                                                                                                                ",SQ04_H2H_Facilitated_Collab_Type_Webinars,yes,no
+" [73] ""N.A""                                                                                                                              ",SQ04_H2H_Facilitated_Collab_Type_Not_Applicable,yes,no
+" [74] ""Other.4""                                                                                                                          ",SQ04_H2H_Facilitated_Collab_Type_Other,yes,no
+" [75] ""If.other..please.specify..""                                                                                                       ",SQ04_H2H_Facilitated_Collab_Open_Response,no,no
+" [76] ""X1.1.calls.or.email.exchanges.with.the.core.team""                                                                                 ",SQ05_Network_Engagement_Type_Calls_Emails,yes,no
+" [77] ""Monthly.members..updates.general.emails""                                                                                          ",SQ05_Network_Engagement_Type_Monthly_Updates,yes,no
+" [78] ""Internal.members..hub..SharePoint.""                                                                                               ",SQ05_Network_Engagement_Type_Sharepoint,yes,no
+" [79] ""Community.of.Practice.slack.channel""                                                                                              ",SQ05_Network_Engagement_Type_Slack,yes,no
+" [80] ""Crisis.watch.calls""                                                                                                               ",SQ05_Network_Engagement_Type_Crisis_Watch_Calls,yes,no
+" [81] ""Other.5""                                                                                                                          ",SQ05_Network_Engagement_Type_Other,yes,no
+" [82] ""If.other..please.specify...1""                                                                                                     ",SQ05_Network_Engagement_Open_Response,no,no
+" [83] ""Would.you.like.to.propose.any.new.topics.for.communities.of.practice..learning.webinars.or.workshops..""                           ",SQ06_Community_Of_Practice_Suggestions_Open_Response,no,no
+" [84] ""Would.you.like.to.make.any.other.suggestions.concerning.the.future.development.of.members..services.""                             ",SQ07_Member_Services_Suggestions_Open_Response,no,no
+" [85] ""Please.select.yes.or.no.2""                                                                                                        ",SQ08_Applied_For_H2H_Fund,no,no
+" [86] ""Please.provide.any.details.2""                                                                                                     ",SQ08_Applied_For_H2H_Fund_Open_Response,no,no
+" [87] ""The.process.around.accessing.funding.is.unclear.to.you""                                                                           ",SQ09_Avoided_H2H_Fund_Reason_Type_Unclear_Process,yes,no
+" [88] ""The.crisis.covered.by.the.Fund.activations.do.not.align.with.your.operational.priorities.and.capacities""                          ",SQ09_Avoided_H2H_Fund_Reason_Type_Misaligned_Priorities_Capacities,yes,no
+" [89] ""Your.organization.had.other.sources.of.funding.for.your.response.to.the.crisis.covered.by.the.Fund""                               ",SQ09_Avoided_H2H_Fund_Reason_Type_Alternate_Funding,yes,no
+" [90] ""The.timeframe.to.submit.a.project.proposal.is.too.short""                                                                          ",SQ09_Avoided_H2H_Fund_Reason_Type_Submission_Timeframe_Short,yes,no
+" [91] ""The.process.around.submitting.an.application..narrative.proposal..budget..workplan...is.too.complex""                              ",SQ09_Avoided_H2H_Fund_Reason_Type_Complex_Process,yes,no
+" [92] ""The.Due.Diligence.Assessment.required.to.access.the.fund.is.too.complex.or.time.consuming""                                        ",SQ09_Avoided_H2H_Fund_Reason_Type_Due_Dilligence_Assessment,yes,no
+" [93] ""The.amount.allocated.is.too.small""                                                                                                ",SQ09_Avoided_H2H_Fund_Reason_Type_Amount_Small,yes,no
+" [94] ""The.timeframe.to.implemented.funded.projects.is.too.short""                                                                        ",SQ09_Avoided_H2H_Fund_Reason_Type_Implment_Timeframe_Short,yes,no
+" [95] ""Other.6""                                                                                                                          ",SQ09_Avoided_H2H_Fund_Reason_Type_Other,yes,no
+" [96] ""If.other..please.specify...2""                                                                                                     ",SQ09_Avoided_H2H_Fund_Reason_Open_Response,no,no
+" [97] ""Please.select.yes.or.no.3""                                                                                                        ",SQ10_H2H_Fund_Rejection_Feedback_Useful,no,no
+" [98] ""Please.add.any.details""                                                                                                           ",SQ10_H2H_Fund_Rejection_Feedback_Useful_Open_Response,no,no
+" [99] ""Please.rank.2""                                                                                                                    ",SQ11_Grant_Panel_Assessment_Decision_Process,no,no
+"[100] ""Please.provide.any.comments""                                                                                                      ",SQ11_Grant_Panel_Assessment_Decision_Process_Open_Response,no,no
+"[101] ""Please.rank.3""                                                                                                                    ",SQ12_Grant_Support_Provided,no,no
+"[102] ""Please.provide.any.comments.1""                                                                                                    ",SQ12_Grant_Support_Provided_Open_Response,no,no
+"[103] ""Would.you.like.to.make.any.other.suggestions.concerning.the.future.development.of.the.fund.or.directions.that.it.could.take.""     ",SQ13_Fund_Development_Suggestions_Open_Response,no,no
+"[104] ""Please.select.yes.or.no.4""                                                                                                        ",SQ14_Greater_Awareness_Of_Network,no,no
+"[105] ""Please.share.any.details.on.your.perception.of.others..awareness.of.the.H2H.Network""                                              ",SQ14_Greater_Awareness_Of_Network_Open_Response,no,no
+"[106] ""How.do.you.communicate.to.operational.agencies..donors.and.local.national.actors.about.the.H2H.Network.and.your.role.as.a.member.""",SQ15_How_Communicate_About_H2H,no,no
+"[107] ""Please.rank.the.three.alternatives.in.order.of.effectiveness""                                                                     ",SQ16_Rank_External_Engagement_Approach,no,no
+"[108] ""If.any.comments..please.provide.below.""                                                                                           ",SQ16_Rank_External_Engagement_Approach_Open_Response,no,no
+"[109] ""Social.media""                                                                                                                     ",SQ17_External_Network_Engagement_Type_Social_Media,yes,no
+"[110] ""Website""                                                                                                                          ",SQ17_External_Network_Engagement_Type_Website,yes,no
+"[111] ""Public.newsletter""                                                                                                                ",SQ17_External_Network_Engagement_Type_Newsletter,yes,no
+"[112] ""Events.1""                                                                                                                         ",SQ17_External_Network_Engagement_Type_Events,yes,no
+"[113] ""Other.7""                                                                                                                          ",SQ17_External_Network_Engagement_Type_Other,yes,no
+"[114] ""If.other..please.comment.below..1""                                                                                                ",SQ17_External_Network_Engagement_Open_Response,no,no
+"[115] ""Communications.package""                                                                                                           ",SQ18_Fund_Activation_External_Enagagement_Type_Comms_Package,yes,no
+"[116] ""Brokering.with.stakeholders..end.users..donors..partners..""                                                                       ",SQ18_Fund_Activation_External_Enagagement_Type_Stakeholder_Brokering,yes,no
+"[117] ""Deployment""                                                                                                                       ",SQ18_Fund_Activation_External_Enagagement_Type_Deployment,yes,no
+"[118] ""Other.8""                                                                                                                          ",SQ18_Fund_Activation_External_Enagagement_Type_Other,yes,no
+"[119] ""If.other..please.comment.below..2""                                                                                                ",SQ18_Fund_Activation_External_Enagagement_Open_Response,no,no
+"[120] ""Would.you.like.to.make.any.other.suggestions.concerning.the.H2H.Network.s.brokering.and.facilitation.activities...""               ",SQ19_H2H_Brokering_Facilitation_Suggestions_Open_Response,no,no
+"[121] ""Start.Date..UTC.""                                                                                                                 ",PII_Survey_Start,no,no
+"[122] ""Submit.Date..UTC.""                                                                                                                ",PII_Survey_Finish,no,no
+"[123] ""Network.ID""                                                                                                                       ",PII_Network_ID,no,no
+"[124] ""Tags""  ",PII_Empty_Tags,no,no

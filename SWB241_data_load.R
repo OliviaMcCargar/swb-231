@@ -34,6 +34,14 @@ results_2019 <- results_2019[-1,]
 # Function for squishing responses in a column to 1 or 0, passing in name of column
 # Calling function with list of multi-valid questions
 
+results_2019["Q06_Update_Preference_Website"] <- results_2019["Q06_Update_Preference_Website"] %>%
+  replace(!is.na(.), "1") %>%
+  replace(is.na(.), "0")
+
+
+dat %>% 
+  mutate(var = replace(var, var != "Candy", "Not Candy"))
+
 # Assigning classes to some of the open responses with overlap in 2023 and 2019 surveys
 
 # Pulling out a rank score in SQ16_Rank_External_Engagement_Approach in 2023 survey
