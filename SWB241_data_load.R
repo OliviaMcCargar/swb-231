@@ -70,5 +70,11 @@ for(column_name in Multi_Valid_Columns_2023) {
 # Pulling out a rank score in SQ16_Rank_External_Engagement_Approach in 2023 survey
 
 
+# Exporting data in clean .csvs
 
+pth <- file.path(getwd(), "data", "2019 Members survey clean.csv")
+write.csv(results_2019, pth, row.names = FALSE)
+
+pth <- file.path(getwd(), "data", "2023 Members survey clean.csv")
+write.csv(results_2023, pth, row.names = FALSE)
 
