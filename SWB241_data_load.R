@@ -29,19 +29,46 @@ results_2023 <- results_2023 %>%
 # Remove false header row generated from output
 results_2019 <- results_2019[-1,]
 
-# TODO 
 
 # Function for squishing responses in a column to 1 or 0, passing in name of column
 # Calling function with list of multi-valid questions
 
-results_2019["Q06_Update_Preference_Website"] <- results_2019["Q06_Update_Preference_Website"] %>%
-  replace(!is.na(.), "1") %>%
-  replace(is.na(.), "0")
+convert_column_binary <- function(survey, column_name) {
+  survey[column_name] <- survey[column_name] %>%
+    replace(!is.na(.), "1")
+  
+  survey[column_name] <- survey[column_name] %>%
+    replace(is.na(.), "0")
+  
+  survey <- survey %>% 
+    mutate_at(c(column_name), as.numeric)
+  
+  return(survey)
+}
+
+Multi_Valid_Columns_2019 <- columns_2019 %>%
+  filter(multi_valid == "yes") %>%
+  .$clean_column
+
+for(column_name in Multi_Valid_Columns_2019) {
+  results_2019 <- convert_column_binary(results_2019, column_name)
+}
+
+Multi_Valid_Columns_2023 <- columns_2023 %>%
+  filter(multi_valid == "yes") %>%
+  .$clean_column
+
+for(column_name in Multi_Valid_Columns_2023) {
+  results_2023 <- convert_column_binary(results_2023, column_name)
+}
 
 
-dat %>% 
-  mutate(var = replace(var, var != "Candy", "Not Candy"))
+# TODO 
 
 # Assigning classes to some of the open responses with overlap in 2023 and 2019 surveys
 
 # Pulling out a rank score in SQ16_Rank_External_Engagement_Approach in 2023 survey
+
+
+
+
