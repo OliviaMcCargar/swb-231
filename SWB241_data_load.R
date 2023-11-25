@@ -34,6 +34,9 @@ results_2023 <- results_2023 %>%
 # Remove false header row generated from output
 results_2019 <- results_2019[-1,]
 
+# Coerce empty responses to NA
+results_2019 <- results_2019 %>% mutate_if(is.character, list(~na_if(.,"")))
+results_2023 <- results_2023 %>% mutate_if(is.character, list(~na_if(.,"")))
 
 # Function for squishing responses in a column to 1 or 0, passing in name of column
 # Calling function with list of multi-valid questions
