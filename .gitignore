@@ -1,6 +1,9 @@
 data/2019 Members survey full data.csv
 data/2019 Members survey full data.xlsx
 data/2023 Members survey full download.csv
+data/2019 Members survey clean.csv
+data/2023 Members survey clean.csv
+
 .Rproj.user
 .Rhistory
 .RData
