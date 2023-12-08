@@ -1,0 +1,126 @@
+---
+header-includes:
+    \renewcommand{\familydefault}{\sfdefault}
+output:
+  pdf_document:
+    toc: no
+  html_document:
+    fig_width: 8
+    code_folding: hide
+    highlight: tango
+    toc: no
+    toc_float:
+      collapsed: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.width=8,fig.height=2,      
+                      echo=FALSE, warning=FALSE, message=FALSE)
+
+```
+
+```{r echo=FALSE}
+library(ggplot2)
+library(tidyverse)
+
+source("SWB231_data_load.R")
+
+satisfaction_survey <- results_2023 %>%
+  select(
+    "Q01_Org_Name",starts_with("SQ")
+  )
+
+```
+<style>
+body {
+color: #1a1a1a;
+font-family: Calibre, Arial, sans-serif;
+}
+h1, h2, h3 {
+color: #7045ff;
+}
+</style>
+
+# <span style="text-align: center;">H2H Satisfaction Survey Results Overview</span>
+<span style="text-align: center;">Summary Results Report by Olivia McCargar</span>
+
+
+### Question 1
+
+How engaged have you been in the network, either bilaterally with other members, or through the network’s processes or activities?
+
+Please rank 1 is not at all involved and 5 is very involved.  
+
+```{r echo=FALSE}
+
+SQ01 <- satisfaction_survey %>%
+  select(
+    "Q01_Org_Name",starts_with("SQ01")
+  ) %>% 
+  na.omit()
+
+conf_min <- mean(SQ01$SQ01_H2H_Network_Satisfaction) - sd(SQ01$SQ01_H2H_Network_Satisfaction)
+conf_max <- mean(SQ01$SQ01_H2H_Network_Satisfaction) + sd(SQ01$SQ01_H2H_Network_Satisfaction)
+
+confidence_line <- data.frame(x = c(conf_min, conf_max),
+                              y = c(0.25, 0.25))
+
+likert_default <- data.frame(x = c(1,2,3,4,5),
+                y = c(0,0,0,0,0))
+
+number_line <- likert_default %>% 
+  ggplot(aes(x,y)) +
+  geom_point(aes(size=10), shape=1, colour = "#1a1a1a") +
+  theme(legend.position="none", 
+            rect = element_blank(),
+            panel.grid = element_blank(),
+            axis.title = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks.y=element_blank()
+            ) +
+  coord_fixed(ratio = 3) +
+  geom_point(aes(x=mean(SQ01$SQ01_H2H_Network_Satisfaction), y=0, size = 10), colour="#7045ff") +
+  geom_segment(aes(x = confidence_line$x[1], y = confidence_line$y[1], xend = confidence_line$x[2], yend = confidence_line$y[2]), colour="#7045ff") +
+  geom_point(aes(x=confidence_line$x[1], y = confidence_line$y[1], size = 10), shape = "|", colour="#7045ff") +
+  geom_point(aes(x=confidence_line$x[2], y = confidence_line$y[2], size = 10), shape = "|", colour="#7045ff") +
+  annotate(
+      "text", 
+      x = mean(SQ01$SQ01_H2H_Network_Satisfaction), 
+      y = 0.5, 
+      label = "",
+      color = "white",
+      fontface = 2,
+      size = 1
+  ) +
+  annotate(
+      "text", 
+      x = mean(SQ01$SQ01_H2H_Network_Satisfaction), 
+      y = 0.1, 
+      label = paste("Average",round(mean(SQ01$SQ01_H2H_Network_Satisfaction),2)),
+      color = "#1a1a1a",
+      fontface = 2,
+      size = 3
+  ) +
+  annotate(
+      "text", 
+      x = mean(SQ01$SQ01_H2H_Network_Satisfaction), 
+      y = 0.3, 
+      label = "68% Confidence Range",
+      color = "#1a1a1a",
+      fontface = 2,
+      size = 3
+  )
+
+number_line
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
