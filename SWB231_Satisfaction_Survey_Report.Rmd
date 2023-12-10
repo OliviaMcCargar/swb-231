@@ -2,8 +2,6 @@
 header-includes:
     \renewcommand{\familydefault}{\sfdefault}
 output:
-  pdf_document:
-    toc: no
   html_document:
     fig_width: 8
     code_folding: hide
@@ -11,6 +9,8 @@ output:
     toc: no
     toc_float:
       collapsed: yes
+  pdf_document:
+    toc: no
 ---
 
 ```{r setup, include=FALSE}
@@ -24,6 +24,70 @@ library(ggplot2)
 library(tidyverse)
 
 source("SWB231_data_load.R")
+
+generate_summary_plot <- function(data_frame, question_preface) {
+  
+  current_question <- satisfaction_survey %>%
+  select(
+    "Q01_Org_Name",starts_with(question_preface)
+  ) %>% 
+  na.omit()
+  
+  conf_min <- mean(current_question[[2]]) - sd(current_question[[2]])
+  conf_max <- mean(current_question[[2]]) + sd(current_question[[2]])
+
+  confidence_line <- data.frame(x = c(conf_min, conf_max),
+                              y = c(0.25, 0.25))
+
+  likert_default <- data.frame(x = c(1,2,3,4,5),
+                  y = c(0,0,0,0,0))
+
+
+  number_line <- likert_default %>% 
+    ggplot(aes(x,y)) +
+    geom_point(aes(size=10), shape=1, colour = "#1a1a1a") +
+    theme(legend.position="none", 
+            rect = element_blank(),
+            panel.grid = element_blank(),
+            axis.title = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks.y=element_blank()
+            ) +
+    coord_fixed(ratio = 3) +
+    geom_point(aes(x=mean(current_question[[2]]), y=0, size = 10), colour="#7045ff") +
+    geom_segment(aes(x = confidence_line$x[1], y = confidence_line$y[1], xend = confidence_line$x[2], yend = confidence_line$y[2]), colour="#7045ff") +
+    geom_point(aes(x=confidence_line$x[1], y = confidence_line$y[1], size = 10), shape = "|", colour="#7045ff") +
+    geom_point(aes(x=confidence_line$x[2], y = confidence_line$y[2], size = 10), shape = "|", colour="#7045ff") +
+    annotate(
+        "text", 
+        x = mean(current_question[[2]]), 
+        y = 0.5, 
+        label = "",
+        color = "white",
+        fontface = 2,
+        size = 1
+    ) +
+    annotate(
+        "text", 
+        x = mean(current_question[[2]]), 
+        y = 0.1, 
+        label = paste("Average",round(mean(current_question[[2]]),2)),
+        color = "#1a1a1a",
+        fontface = 2,
+        size = 3
+    ) +
+    annotate(
+        "text", 
+        x = mean(current_question[[2]]), 
+        y = 0.3, 
+        label = "68% Confidence Range",
+        color = "#1a1a1a",
+        fontface = 2,
+        size = 3
+    )
+  
+    return(number_line)
+}
 
 satisfaction_survey <- results_2023 %>%
   select(
@@ -41,8 +105,8 @@ color: #7045ff;
 }
 </style>
 
-# <span style="text-align: center;">H2H Satisfaction Survey Results Overview</span>
-<span style="text-align: center;">Summary Results Report by Olivia McCargar</span>
+# H2H Satisfaction Survey Results Overview
+Summary Results Report by Olivia McCargar
 
 
 ### Question 1
@@ -51,76 +115,27 @@ How engaged have you been in the network, either bilaterally with other members,
 
 Please rank 1 is not at all involved and 5 is very involved.  
 
-```{r echo=FALSE}
+```{r echo=FALSE, results = 'asis'}
 
-SQ01 <- satisfaction_survey %>%
+current_chart <- generate_summary_plot(satisfaction_survey,"SQ01")
+
+current_chart
+
+```
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ01"
+
+current_question <- satisfaction_survey %>%
   select(
-    "Q01_Org_Name",starts_with("SQ01")
+    "Q01_Org_Name",starts_with(question_preface)
   ) %>% 
   na.omit()
 
-conf_min <- mean(SQ01$SQ01_H2H_Network_Satisfaction) - sd(SQ01$SQ01_H2H_Network_Satisfaction)
-conf_max <- mean(SQ01$SQ01_H2H_Network_Satisfaction) + sd(SQ01$SQ01_H2H_Network_Satisfaction)
 
-confidence_line <- data.frame(x = c(conf_min, conf_max),
-                              y = c(0.25, 0.25))
-
-likert_default <- data.frame(x = c(1,2,3,4,5),
-                y = c(0,0,0,0,0))
-
-number_line <- likert_default %>% 
-  ggplot(aes(x,y)) +
-  geom_point(aes(size=10), shape=1, colour = "#1a1a1a") +
-  theme(legend.position="none", 
-            rect = element_blank(),
-            panel.grid = element_blank(),
-            axis.title = element_blank(),
-            axis.text.y = element_blank(),
-            axis.ticks.y=element_blank()
-            ) +
-  coord_fixed(ratio = 3) +
-  geom_point(aes(x=mean(SQ01$SQ01_H2H_Network_Satisfaction), y=0, size = 10), colour="#7045ff") +
-  geom_segment(aes(x = confidence_line$x[1], y = confidence_line$y[1], xend = confidence_line$x[2], yend = confidence_line$y[2]), colour="#7045ff") +
-  geom_point(aes(x=confidence_line$x[1], y = confidence_line$y[1], size = 10), shape = "|", colour="#7045ff") +
-  geom_point(aes(x=confidence_line$x[2], y = confidence_line$y[2], size = 10), shape = "|", colour="#7045ff") +
-  annotate(
-      "text", 
-      x = mean(SQ01$SQ01_H2H_Network_Satisfaction), 
-      y = 0.5, 
-      label = "",
-      color = "white",
-      fontface = 2,
-      size = 1
-  ) +
-  annotate(
-      "text", 
-      x = mean(SQ01$SQ01_H2H_Network_Satisfaction), 
-      y = 0.1, 
-      label = paste("Average",round(mean(SQ01$SQ01_H2H_Network_Satisfaction),2)),
-      color = "#1a1a1a",
-      fontface = 2,
-      size = 3
-  ) +
-  annotate(
-      "text", 
-      x = mean(SQ01$SQ01_H2H_Network_Satisfaction), 
-      y = 0.3, 
-      label = "68% Confidence Range",
-      color = "#1a1a1a",
-      fontface = 2,
-      size = 3
-  )
-
-number_line
+for(numrow in 1:nrow(current_question)) {
+        paste0(cat("\n<div style=\"padding: 0 2em; margin-bottom: 0.5em;\"><div style=\"font-size: 90%; border-bottom: 1px solid #e0e0e0; border-color: #e0e0e0;\">\n<span style=\"color: #7045ff;\">",current_question[[numrow,1]],"</span>\n\n<span style=\"color: #1a1a1a;\">Score:", current_question[[numrow,2]],"</span>","\n<div style=\"padding: 1em;\">", current_question[[numrow,3]],"</div>\n</div></div>"), sep = "\n\n\n\n")
+      }
 
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
