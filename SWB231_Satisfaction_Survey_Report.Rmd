@@ -25,7 +25,7 @@ library(tidyverse)
 
 source("SWB231_data_load.R")
 
-generate_summary_plot <- function(data_frame, question_preface) {
+generate_summary_plot <- function(question_preface) {
   
   current_question <- satisfaction_survey %>%
   select(
@@ -89,6 +89,37 @@ generate_summary_plot <- function(data_frame, question_preface) {
     return(number_line)
 }
 
+generate_open_response_list <- function(question_preface) {
+  
+  current_question <- satisfaction_survey %>%
+  select(
+    "Q01_Org_Name",starts_with(question_preface)
+  ) %>% 
+  na.omit()
+  
+  for(numrow in 1:nrow(current_question)) {
+        paste0(cat("\n<div style=\"padding: 0 2em; margin-bottom: 0.5em;\"><div style=\"font-size: 90%; border-bottom: 1px solid #e0e0e0; border-color: #e0e0e0;\">\n<span style=\"color: #7045ff;\">",current_question[[numrow,1]],"</span>\n\n<span style=\"color: #1a1a1a;\">Score:", current_question[[numrow,2]],"</span>","\n<div style=\"padding: 1em;\">", current_question[[numrow,length(current_question)]],"</div>\n</div></div>"), sep = "\n\n\n\n")
+      }
+}
+
+generate_question_overview_dataframe <- function(question_number, original_data_frame) {
+  question_overview <- original_data_frame %>%
+  select(starts_with(paste(question_number, '_', sep=""))) %>%
+  pivot_longer(
+    everything(), 
+    names_to = "answer_type", 
+    names_prefix = paste(question_number, '_', sep=""),
+    values_to = "count") %>%
+  filter(count != 0 ) %>%
+  group_by(answer_type) %>%
+  summarize(
+    count = sum(count),
+    percent = count/nrow(original_data_frame)
+  )
+
+return(question_overview)
+}
+
 satisfaction_survey <- results_2023 %>%
   select(
     "Q01_Org_Name",starts_with("SQ")
@@ -111,21 +142,43 @@ Summary Results Report by Olivia McCargar
 
 ### Question 1
 
-How engaged have you been in the network, either bilaterally with other members, or through the network’s processes or activities?
+Overall, how satisfied are you with the H2H Network to date?
 
-Please rank 1 is not at all involved and 5 is very involved.  
+Please rank 1 not at all satisfied and 5 is very satisfied.
 
 ```{r echo=FALSE, results = 'asis'}
 
-current_chart <- generate_summary_plot(satisfaction_survey,"SQ01")
+current_chart <- generate_summary_plot("SQ01")
 
 current_chart
 
+generate_open_response_list("SQ01")
+
+
 ```
+
+### Question 2
+
+How engaged have you been in the network , either bilaterally with other members, or through the network’s processes or activities?
+
+Please rank 1 is not at all involved and 5 is very involved. Please select how you have been engaged.
+
+- Board member  
+- Regularly participating in calls and workshops 
+- engaging with the Communications Community of Practice of the Impact and Learning Advisory Group  
+- Participating in H2H Network-organized events at HNPW or elsewhere 
+- Other (please specify) 
+
 
 ```{r echo=FALSE, results = 'asis'}
 
-question_preface <- "SQ01"
+current_chart <- generate_summary_plot("SQ02")
+
+current_chart
+
+generate_open_response_list("SQ02")
+
+question_preface <- "SQ02"
 
 current_question <- satisfaction_survey %>%
   select(
@@ -133,9 +186,20 @@ current_question <- satisfaction_survey %>%
   ) %>% 
   na.omit()
 
+select_question <- current_question %>%
+  select(contains("_Type_")) %>%
+  pivot_longer(
+    everything(), 
+    names_to = "answer_type", 
+    names_prefix = paste(question_preface, '_', sep=""),
+    values_to = "count") %>%
+  filter(count != 0 ) %>%
+  group_by(answer_type) %>%
+  summarize(
+    count = sum(count),
+    percent = count/nrow(current_question)
+  )
+  
 
-for(numrow in 1:nrow(current_question)) {
-        paste0(cat("\n<div style=\"padding: 0 2em; margin-bottom: 0.5em;\"><div style=\"font-size: 90%; border-bottom: 1px solid #e0e0e0; border-color: #e0e0e0;\">\n<span style=\"color: #7045ff;\">",current_question[[numrow,1]],"</span>\n\n<span style=\"color: #1a1a1a;\">Score:", current_question[[numrow,2]],"</span>","\n<div style=\"padding: 1em;\">", current_question[[numrow,3]],"</div>\n</div></div>"), sep = "\n\n\n\n")
-      }
 
 ```
