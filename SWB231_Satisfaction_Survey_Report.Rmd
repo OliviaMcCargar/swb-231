@@ -25,13 +25,21 @@ library(tidyverse)
 
 source("SWB231_data_load.R")
 
-generate_summary_plot <- function(question_preface) {
-  
+pth <- file.path(getwd(), "data", "surveyvariabletranslation.csv")
+variable_transformation <- read.csv(pth, header=TRUE,encoding = "latin1")
+
+generate_current_question <- function(question_preface) {
   current_question <- satisfaction_survey %>%
   select(
     "Q01_Org_Name",starts_with(question_preface)
   ) %>% 
   na.omit()
+  return(current_question)
+}
+
+generate_summary_plot <- function(question_preface, title) {
+  
+  current_question <- generate_current_question(question_preface)
   
   conf_min <- mean(current_question[[2]]) - sd(current_question[[2]])
   conf_max <- mean(current_question[[2]]) + sd(current_question[[2]])
@@ -40,28 +48,29 @@ generate_summary_plot <- function(question_preface) {
                               y = c(0.25, 0.25))
 
   likert_default <- data.frame(x = c(1,2,3,4,5),
-                  y = c(0,0,0,0,0))
+                  y = c(0.1,0.1,0.1,0.1,0.1))
 
 
   number_line <- likert_default %>% 
     ggplot(aes(x,y)) +
     geom_point(aes(size=10), shape=1, colour = "#1a1a1a") +
+    labs(title = title,x = "Rank (1 = Lowest, 5 = Highest)") +
     theme(legend.position="none", 
             rect = element_blank(),
             panel.grid = element_blank(),
-            axis.title = element_blank(),
+            axis.title.y = element_blank(),
             axis.text.y = element_blank(),
             axis.ticks.y=element_blank()
             ) +
     coord_fixed(ratio = 3) +
-    geom_point(aes(x=mean(current_question[[2]]), y=0, size = 10), colour="#7045ff") +
+    geom_point(aes(x=mean(current_question[[2]]), y=0.1, size = 10), colour="#7045ff") +
     geom_segment(aes(x = confidence_line$x[1], y = confidence_line$y[1], xend = confidence_line$x[2], yend = confidence_line$y[2]), colour="#7045ff") +
     geom_point(aes(x=confidence_line$x[1], y = confidence_line$y[1], size = 10), shape = "|", colour="#7045ff") +
     geom_point(aes(x=confidence_line$x[2], y = confidence_line$y[2], size = 10), shape = "|", colour="#7045ff") +
     annotate(
         "text", 
         x = mean(current_question[[2]]), 
-        y = 0.5, 
+        y = 0.05, 
         label = "",
         color = "white",
         fontface = 2,
@@ -70,7 +79,7 @@ generate_summary_plot <- function(question_preface) {
     annotate(
         "text", 
         x = mean(current_question[[2]]), 
-        y = 0.1, 
+        y = 0.15, 
         label = paste("Average",round(mean(current_question[[2]]),2)),
         color = "#1a1a1a",
         fontface = 2,
@@ -89,18 +98,80 @@ generate_summary_plot <- function(question_preface) {
     return(number_line)
 }
 
+generate_count_plot <- function(question_preface, title, offset_1 = 0.83, offset_2 = 0.92) {
+  
+  current_question <- generate_current_question(question_preface)
+
+  count_table <- data_frame(rank = c(5,4,3,2,1), count = c(0,0,0,0,0))
+
+  for(rank in count_table$rank) {
+    count_table$count[count_table$rank == rank] <- length(which(current_question[[2]]==rank))
+  }
+
+  count_table <- count_table %>% 
+    mutate(
+      percent = count/nrow(current_question),
+      display = row_number()
+    )
+
+  overview_dataframe <- count_table
+
+count_barplot <- ggplot(overview_dataframe, aes_string(x = colnames(overview_dataframe)[1], y = colnames(overview_dataframe)[3])) +
+  theme_minimal() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none",
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank()
+  ) +
+  geom_col(
+    aes(y=1),
+    color=NA,
+    fill = "grey",
+    alpha=.15
+  ) +
+  geom_col(
+    color=NA,
+    fill = "#7045ff"
+  ) +
+  coord_flip() +
+  labs(title = title,y = "Count (Percent of Respondents)") +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_1, 
+      label = overview_dataframe[[2]],
+      color = "#1a1a1a",
+      fontface = 2,
+      size = 3.5
+  ) +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_2, 
+      label = sprintf("(%0.2f%%)", overview_dataframe[[3]]*100),
+      color = "#1a1a1a",
+      size = 3.5
+  )
+  
+    return(count_barplot)
+}
+
 generate_open_response_list <- function(question_preface) {
   
-  current_question <- satisfaction_survey %>%
-  select(
-    "Q01_Org_Name",starts_with(question_preface)
-  ) %>% 
-  na.omit()
+  current_question <- generate_current_question(question_preface)
+  
+  paste0(cat("\n<h3 style=\"text-decoration: underline; font-weight: bold;\">Comments on This Question</h3>"))
   
   for(numrow in 1:nrow(current_question)) {
-        paste0(cat("\n<div style=\"padding: 0 2em; margin-bottom: 0.5em;\"><div style=\"font-size: 90%; border-bottom: 1px solid #e0e0e0; border-color: #e0e0e0;\">\n<span style=\"color: #7045ff;\">",current_question[[numrow,1]],"</span>\n\n<span style=\"color: #1a1a1a;\">Score:", current_question[[numrow,2]],"</span>","\n<div style=\"padding: 1em;\">", current_question[[numrow,length(current_question)]],"</div>\n</div></div>"), sep = "\n\n\n\n")
-      }
+    if(!current_question[[numrow,length(current_question)]] %in% c("NA", "n/a", "N/A")) {
+      paste0(cat("\n<div style=\"padding: 0 2em; margin-bottom: 0.5em;\"><div style=\"font-size: 90%; border-bottom: 1px solid #e0e0e0; border-color: #e0e0e0;\">\n<span style=\"color: #7045ff;\">",current_question[[numrow,1]],"</span>\n\n<span style=\"color: #1a1a1a;\">Score:", current_question[[numrow,2]],"</span>","\n<div style=\"padding: 1em;\">", current_question[[numrow,length(current_question)]],"</div>\n</div></div>"), sep = "\n\n\n\n")
+    }
+  }
 }
+
+
 
 generate_question_overview_dataframe <- function(question_number, original_data_frame) {
   question_overview <- original_data_frame %>%
@@ -120,10 +191,90 @@ generate_question_overview_dataframe <- function(question_number, original_data_
 return(question_overview)
 }
 
+generate_question_type_dataframe <- function(question_preface) {
+  
+  current_question <- generate_current_question(question_preface)
+  
+  select_question <- current_question %>%
+  select(contains("_Type_")) %>%
+  pivot_longer(
+    everything(), 
+    names_to = "answer_type", 
+    names_prefix = paste(question_preface, '_', sep=""),
+    values_to = "count") %>%
+  filter(count != 0 ) %>%
+  group_by(answer_type) %>%
+  summarize(
+    count = sum(count),
+    percent = count/nrow(current_question)
+  )
+
+question_type_translations <- variable_transformation %>%
+  filter(variable_name %in% select_question[[1]])
+question_type_translations <- question_type_translations %>% arrange(variable_name)
+
+select_question <- select_question %>%
+  mutate(
+    answer_type = question_type_translations$translation[question_type_translations$variable_name == answer_type]
+  )
+
+return(select_question)
+}
+
+generate_question_type_overview_plot <- function(question_preface, title, offset_1 = 0.83, offset_2 = 0.92) {
+  
+  overview_dataframe <- generate_question_type_dataframe(question_preface)
+  
+  overview_barplot <- ggplot(overview_dataframe, aes_string(x = paste0("reorder(",colnames(overview_dataframe)[1],", ",colnames(overview_dataframe)[3],")"), y = colnames(overview_dataframe)[3])) +
+  theme_minimal() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none",
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank()
+  ) +
+  geom_col(
+    aes(y=1),
+    color=NA,
+    fill = "grey",
+    alpha=.15
+  ) +
+  geom_col(
+    color=NA,
+    fill = "#7045ff"
+  ) +
+  coord_flip() +
+  labs(title = title,y = "Count (Percent of Respondents)") +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_1, 
+      label = overview_dataframe[[2]],
+      color = "#1a1a1a",
+      fontface = 2,
+      size = 3.5
+  ) +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_2, 
+      label = sprintf("(%0.2f%%)", overview_dataframe[[3]]*100),
+      color = "#1a1a1a",
+      size = 3.5
+  )
+  
+  return(overview_barplot)
+}
+
 satisfaction_survey <- results_2023 %>%
   select(
     "Q01_Org_Name",starts_with("SQ")
   )
+
+satisfaction_survey <- satisfaction_survey %>%
+  mutate_at(vars(contains("open_response")), ~replace_na(., "NA"))
+  
 
 ```
 <style>
@@ -148,11 +299,37 @@ Please rank 1 not at all satisfied and 5 is very satisfied.
 
 ```{r echo=FALSE, results = 'asis'}
 
-current_chart <- generate_summary_plot("SQ01")
+cat("</br>")
 
-current_chart
+question_preface <- "SQ01"
+
+generate_summary_plot("SQ01", "Overall Satisfaction with H2H Services")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_count_plot("SQ01", "Overall Satisfaction with H2H Services Rank Count")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_summary_plot("SQ01", "Overall Satisfaction with H2H Services")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
 
 generate_open_response_list("SQ01")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
 
 
 ```
@@ -172,34 +349,67 @@ Please rank 1 is not at all involved and 5 is very involved. Please select how y
 
 ```{r echo=FALSE, results = 'asis'}
 
-current_chart <- generate_summary_plot("SQ02")
-
-current_chart
-
-generate_open_response_list("SQ02")
-
 question_preface <- "SQ02"
 
-current_question <- satisfaction_survey %>%
-  select(
-    "Q01_Org_Name",starts_with(question_preface)
-  ) %>% 
-  na.omit()
+generate_summary_plot(question_preface, "Overall Level of Engagement")
 
-select_question <- current_question %>%
-  select(contains("_Type_")) %>%
-  pivot_longer(
-    everything(), 
-    names_to = "answer_type", 
-    names_prefix = paste(question_preface, '_', sep=""),
-    values_to = "count") %>%
-  filter(count != 0 ) %>%
-  group_by(answer_type) %>%
-  summarize(
-    count = sum(count),
-    percent = count/nrow(current_question)
-  )
-  
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
 
+generate_count_plot(question_preface, "Overall Level of Engagement Rank Count")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_question_type_overview_plot(question_preface, "How Members Have Been Engaged", offset_1 = 0.81)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 3
+
+Have you collaborated with other members of the network?
+
+If yes, was it a formal collaboration (might be a joint project or funding proposal) or an informal collaboration (might be ad-hoc information sharing) For example, a formal collaboration might be a joint project or funding proposal, an informal collaboration might be ad-hoc information sharing. 
+
+- Please share details. This is extremely useful information for us! 
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ03"
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_question_type_overview_plot(question_preface, "How Members Have Collaborated Together", offset_1 = 0.81)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
 
 ```
