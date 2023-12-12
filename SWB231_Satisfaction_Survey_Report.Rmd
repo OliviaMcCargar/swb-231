@@ -364,8 +364,6 @@ text-decoration: underline;
 </style>
 
 # H2H Satisfaction Survey Results Overview
-Summary Results Report by Olivia McCargar
-
 
 ### Question 1
 
@@ -387,13 +385,6 @@ cat("</br>")
 cat("</br>")
 
 generate_count_plot("SQ01", "Overall Satisfaction with H2H Services Rank Count")
-
-cat("</br>")
-cat("</br>")
-cat("</br>")
-cat("</br>")
-
-generate_summary_plot("SQ01", "Overall Satisfaction with H2H Services")
 
 cat("</br>")
 cat("</br>")
