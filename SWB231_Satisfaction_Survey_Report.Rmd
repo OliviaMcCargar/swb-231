@@ -1,0 +1,1049 @@
+---
+header-includes:
+    \renewcommand{\familydefault}{\sfdefault}
+output:
+  html_document:
+    fig_width: 8
+    code_folding: hide
+    highlight: tango
+    toc: no
+    toc_float:
+      collapsed: yes
+  pdf_document:
+    toc: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.width=8,fig.height=2,      
+                      echo=FALSE, warning=FALSE, message=FALSE)
+
+```
+
+```{r echo=FALSE}
+library(ggplot2)
+library(tidyverse)
+
+source("SWB231_data_load.R")
+
+pth <- file.path(getwd(), "data", "surveyvariabletranslation.csv")
+variable_transformation <- read.csv(pth, header=TRUE)
+
+generate_current_question <- function(question_preface) {
+  current_question <- satisfaction_survey %>%
+  select(
+    "Q01_Org_Name",starts_with(question_preface)
+  ) %>% 
+  na.omit()
+  return(current_question)
+}
+
+generate_summary_plot <- function(question_preface, title) {
+  
+  current_question <- generate_current_question(question_preface)
+  
+  conf_min <- mean(current_question[[2]]) - sd(current_question[[2]])
+  conf_max <- mean(current_question[[2]]) + sd(current_question[[2]])
+
+  confidence_line <- data.frame(x = c(conf_min, conf_max),
+                              y = c(0.25, 0.25))
+
+  likert_default <- data.frame(x = c(1,2,3,4,5),
+                  y = c(0.1,0.1,0.1,0.1,0.1))
+
+
+  number_line <- likert_default %>% 
+    ggplot(aes(x,y)) +
+    geom_point(aes(size=10), shape=1, colour = "#1a1a1a") +
+    labs(title = title,x = "Rank (1 = Lowest, 5 = Highest)") +
+    theme(legend.position="none", 
+            rect = element_blank(),
+            panel.grid = element_blank(),
+            axis.title.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.ticks.y=element_blank()
+            ) +
+    coord_fixed(ratio = 3) +
+    geom_point(aes(x=mean(current_question[[2]]), y=0.1, size = 10), colour="#7045ff") +
+    geom_segment(aes(x = confidence_line$x[1], y = confidence_line$y[1], xend = confidence_line$x[2], yend = confidence_line$y[2]), colour="#7045ff") +
+    geom_point(aes(x=confidence_line$x[1], y = confidence_line$y[1], size = 10), shape = "|", colour="#7045ff") +
+    geom_point(aes(x=confidence_line$x[2], y = confidence_line$y[2], size = 10), shape = "|", colour="#7045ff") +
+    annotate(
+        "text", 
+        x = mean(current_question[[2]]), 
+        y = 0.05, 
+        label = "",
+        color = "white",
+        fontface = 2,
+        size = 1
+    ) +
+    annotate(
+        "text", 
+        x = mean(current_question[[2]]), 
+        y = 0.15, 
+        label = paste("Average",round(mean(current_question[[2]]),2)),
+        color = "#1a1a1a",
+        fontface = 2,
+        size = 3
+    ) +
+    annotate(
+        "text", 
+        x = mean(current_question[[2]]), 
+        y = 0.3, 
+        label = "68% Confidence Range",
+        color = "#1a1a1a",
+        fontface = 2,
+        size = 3
+    )
+  
+    return(number_line)
+}
+
+generate_count_plot <- function(question_preface, title, offset_1 = 0.83, offset_2 = 0.92) {
+  
+  current_question <- generate_current_question(question_preface)
+
+  count_table <- data_frame(rank = c(5,4,3,2,1), count = c(0,0,0,0,0))
+
+  for(rank in count_table$rank) {
+    count_table$count[count_table$rank == rank] <- length(which(current_question[[2]]==rank))
+  }
+
+  count_table <- count_table %>% 
+    mutate(
+      percent = count/nrow(current_question),
+      display = row_number()
+    )
+
+  overview_dataframe <- count_table
+
+count_barplot <- ggplot(overview_dataframe, aes_string(x = colnames(overview_dataframe)[1], y = colnames(overview_dataframe)[3])) +
+  theme_minimal() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none",
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank()
+  ) +
+  geom_col(
+    aes(y=1),
+    color=NA,
+    fill = "grey",
+    alpha=.15
+  ) +
+  geom_col(
+    color=NA,
+    fill = "#7045ff"
+  ) +
+  coord_flip() +
+  labs(title = title,y = "Count (Percent of Respondents)") +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_1, 
+      label = overview_dataframe[[2]],
+      color = "#1a1a1a",
+      fontface = 2,
+      size = 3.5
+  ) +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_2, 
+      label = sprintf("(%0.2f%%)", overview_dataframe[[3]]*100),
+      color = "#1a1a1a",
+      size = 3.5
+  )
+  
+    return(count_barplot)
+}
+
+generate_yes_no_plot <- function(question_preface, title, offset_1 = 0.83, offset_2 = 0.92) {
+  
+  current_question <- generate_current_question(question_preface)
+
+  yes_no_column <- current_question[2]
+
+  yes_no_column <- yes_no_column %>% 
+    mutate(
+      yes_no = ifelse(yes_no_column[row_number(),1] == 1, "Yes", "No")
+    ) %>%
+    select(yes_no)
+
+  yes_no_table <- data_frame(rank = c("Yes","No"), count = c(0,0))
+
+  for(rank in yes_no_table$rank) {
+    yes_no_table$count[yes_no_table$rank == rank] <- length(which(yes_no_column[[1]]==rank))
+  }
+
+  yes_no_table <- yes_no_table %>% 
+    mutate(
+      percent = count/nrow(current_question),
+      display = row_number()
+    )
+
+  overview_dataframe <- yes_no_table
+
+count_barplot <- ggplot(overview_dataframe, aes_string(x = colnames(overview_dataframe)[1], y = colnames(overview_dataframe)[3])) +
+  theme_minimal() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none",
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank()
+  ) +
+  geom_col(
+    aes(y=1),
+    color=NA,
+    fill = "grey",
+    alpha=.15
+  ) +
+  geom_col(
+    color=NA,
+    fill = "#7045ff"
+  ) +
+  coord_flip() +
+  labs(title = title,y = "Count (Percent of Respondents)") +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_1, 
+      label = overview_dataframe[[2]],
+      color = "#1a1a1a",
+      fontface = 2,
+      size = 3.5
+  ) +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_2, 
+      label = sprintf("(%0.2f%%)", overview_dataframe[[3]]*100),
+      color = "#1a1a1a",
+      size = 3.5
+  )
+  
+    return(count_barplot)
+}
+
+generate_open_response_list <- function(question_preface, ignore_score = FALSE) {
+  
+  current_question <- generate_current_question(question_preface)
+  
+  paste0(cat("\n<h3 style=\"text-decoration: none; font-weight: normal;\">Comments on This Question</h3>"))
+  
+  for(numrow in 1:nrow(current_question)) {
+    score_text = ""
+    if(!ignore_score) {
+      score_text <- paste0("\n\n<span style=\"color: #1a1a1a;\">Score:", current_question[[numrow,2]],"</span>")
+    }
+    if(!current_question[[numrow,length(current_question)]] %in% c("NA", "n/a", "N/A")) {
+      paste0(cat("\n<div style=\"padding: 0 2em; margin-bottom: 0.5em;\"><div style=\"font-size: 90%; border-bottom: 1px solid #e0e0e0; border-color: #e0e0e0;\">\n<span style=\"color: #7045ff;\">",current_question[[numrow,1]],"</span>", score_text, "\n<div style=\"padding: 1em;\">", current_question[[numrow,length(current_question)]],"</div>\n</div></div>"), sep = "\n\n\n\n")
+    }
+  }
+}
+
+
+
+generate_question_overview_dataframe <- function(question_number, original_data_frame) {
+  question_overview <- original_data_frame %>%
+  select(starts_with(paste(question_number, '_', sep=""))) %>%
+  pivot_longer(
+    everything(), 
+    names_to = "answer_type", 
+    names_prefix = paste(question_number, '_', sep=""),
+    values_to = "count") %>%
+  filter(count != 0 ) %>%
+  group_by(answer_type) %>%
+  summarize(
+    count = sum(count),
+    percent = count/nrow(original_data_frame)
+  )
+
+return(question_overview)
+}
+
+generate_question_type_dataframe <- function(question_preface) {
+  
+  current_question <- generate_current_question(question_preface)
+  
+  select_question <- current_question %>%
+  select(contains("_Type_")) %>%
+  pivot_longer(
+    everything(), 
+    names_to = "answer_type", 
+    names_prefix = paste(question_preface, '_', sep=""),
+    values_to = "count") %>%
+  filter(count != 0 ) %>%
+  group_by(answer_type) %>%
+  summarize(
+    count = sum(count),
+    percent = count/nrow(current_question)
+  )
+
+question_type_translations <- variable_transformation %>%
+  filter(variable_name %in% select_question[[1]])
+question_type_translations <- question_type_translations %>% arrange(variable_name)
+
+select_question <- select_question %>%
+  mutate(
+    answer_type = question_type_translations$translation[question_type_translations$variable_name == answer_type]
+  )
+
+return(select_question)
+}
+
+generate_question_type_overview_plot <- function(question_preface, title, offset_1 = 0.83, offset_2 = 0.92) {
+  
+  overview_dataframe <- generate_question_type_dataframe(question_preface)
+  
+  overview_barplot <- ggplot(overview_dataframe, aes_string(x = paste0("reorder(",colnames(overview_dataframe)[1],", ",colnames(overview_dataframe)[3],")"), y = colnames(overview_dataframe)[3])) +
+  theme_minimal() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none",
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank()
+  ) +
+  geom_col(
+    aes(y=1),
+    color=NA,
+    fill = "grey",
+    alpha=.15
+  ) +
+  geom_col(
+    color=NA,
+    fill = "#7045ff"
+  ) +
+  coord_flip() +
+  labs(title = title,y = "Count (Percent of Respondents)") +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_1, 
+      label = overview_dataframe[[2]],
+      color = "#1a1a1a",
+      fontface = 2,
+      size = 3.5
+  ) +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_2, 
+      label = sprintf("(%0.2f%%)", overview_dataframe[[3]]*100),
+      color = "#1a1a1a",
+      size = 3.5
+  )
+  
+  return(overview_barplot)
+}
+
+satisfaction_survey <- results_2023 %>%
+  select(
+    "Q01_Org_Name",starts_with("SQ")
+  )
+
+satisfaction_survey <- satisfaction_survey %>%
+  mutate_at(vars(contains("open_response")), ~replace_na(., "NA"))
+  
+
+```
+<style>
+body {
+color: #1a1a1a;
+font-family: Calibre, Arial, sans-serif;
+}
+h1, h2, h3 {
+color: #7045ff;
+}
+h3 {
+font-weight: bold;
+text-decoration: underline;
+}
+</style>
+
+# H2H Satisfaction Survey Results Overview
+
+### Question 1
+
+Overall, how satisfied are you with the H2H Network to date?
+
+Please rank 1 not at all satisfied and 5 is very satisfied.
+
+```{r echo=FALSE, results = 'asis'}
+
+cat("</br>")
+
+question_preface <- "SQ01"
+
+generate_summary_plot("SQ01", "Overall Satisfaction with H2H Services")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_count_plot("SQ01", "Overall Satisfaction with H2H Services Rank Count")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list("SQ01")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+
+```
+
+### Question 2
+
+How engaged have you been in the network , either bilaterally with other members, or through the network’s processes or activities?
+
+Please rank 1 is not at all involved and 5 is very involved. Please select how you have been engaged.
+
+- Board member  
+- Regularly participating in calls and workshops 
+- engaging with the Communications Community of Practice of the Impact and Learning Advisory Group  
+- Participating in H2H Network-organized events at HNPW or elsewhere 
+- Other (please specify) 
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ02"
+
+generate_summary_plot(question_preface, "Overall Level of Engagement")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_count_plot(question_preface, "Overall Level of Engagement Rank Count")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_question_type_overview_plot(question_preface, "How Members Have Been Engaged", offset_1 = 0.81)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 3
+
+Have you collaborated with other members of the network?
+
+If yes, was it a formal collaboration (might be a joint project or funding proposal) or an informal collaboration (might be ad-hoc information sharing) For example, a formal collaboration might be a joint project or funding proposal, an informal collaboration might be ad-hoc information sharing. 
+
+- Please share details. This is extremely useful information for us! 
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ03"
+
+cat("</br>")
+cat("</br>")
+
+generate_yes_no_plot(question_preface, "Have Collaborated With Other Network Members")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_question_type_overview_plot(question_preface, "How Members Have Collaborated Together", offset_1 = 0.81)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 4
+
+If you have collaborated with other members, did the H2H Network core team facilitate this collaboration?
+
+Please share details in the comment box 
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ04"
+
+current_question <- generate_current_question(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_question_type_overview_plot(question_preface, "How Did H2H Core Help with Collaboration?")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 5
+
+Which internal channels do you use to engage with the network? (select all that apply) 
+
+- 1:1 calls or email exchanges with the core team 
+- Monthly members’ updates/ general emails  
+- Internal members’ hub (SharePoint) 
+- Community of Practice slack channel 
+- Crisis watch calls 
+- Other (please specify)
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ05"
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_question_type_overview_plot(question_preface, "Which Internal Channels Were Used to Engage?")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 6
+
+Would you like to propose any new topics for communities of practice, for learning webinars or workshops?  
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ06"
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 7
+
+Would you like to make any other suggestions concerning the future development of members’ services?  
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ07"
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 8
+
+Have you previously applied to the H2H Fund? 
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ08"
+
+cat("</br>")
+cat("</br>")
+
+generate_yes_no_plot(question_preface, "Have Previously Applied to H2H Fund")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 9
+
+If you have not applied to the H2H Fund, what are the main reasons?
+
+- The process around accessing funding is unclear to you 
+- The crisis covered by the Fund activations do not align with your operational priorities and capacities 
+- Your organization had other sources of funding for your response to the crisis covered by the Fund 
+- The timeframe to submit a project proposal is too short  
+- The process around submitting an application (narrative proposal, budget, workplan…) is too complex 
+- The Due Diligence Assessment required to access the fund is too complex or time-consuming 
+- The amount allocated is too small 
+- The timeframe to implemented funded projects is too short 
+- Other (please comment) 
+
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ09"
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_question_type_overview_plot(question_preface, "Why did you not apply to the H2H Fund?")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 10
+
+If you applied to the H2H Fund but were unsuccessful, was the feedback you receive useful to help you understand the rationale and improve future applications?
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ10"
+
+cat("</br>")
+cat("</br>")
+
+generate_yes_no_plot(question_preface, "H2H Fund Rejection Feedback Was Useful")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 11
+
+How would you assess the transparency of the decision-making process by the H2H Grant Panel with regards to the selection of project proposals?
+
+1 is not at all transparent and 5 is very transparent
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ11"
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_summary_plot(question_preface, "Overall Level of Transparency by H2H Grant Panel")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_count_plot(question_preface, "Overall Level of Transparency by H2H Grant Panel Count")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 12
+
+If you received a grant, how would you rate the support provided by the core team throughout the Fund activation process, both administrative and programmatic?
+
+1 is not at all helpful and 5 is very helpful
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ12"
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_summary_plot(question_preface, "Overall Quality of Support by H2H Core Team on Fund Activation Process")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_count_plot(question_preface, "Overall Quality of Support by H2H Core TEam on Fund Activation Process Count")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 13
+
+Would you like to make any other suggestions concerning the future development of the fund or the directions it could take?
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ13"
+
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 14
+
+Overall, do you believe there is greater awareness of the network than one year ago? Please share details in the comment box (operational agencies at HQ or response levels; donors; local and national actors)
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ14"
+
+cat("</br>")
+cat("</br>")
+
+generate_yes_no_plot(question_preface, "Believe There is Greater Awareness of H2H Than One Year Ago")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 15
+
+How do you communicate to operational agencies, donors and local/ national actors about the H2H Network and your role as a member?
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ15"
+
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 16
+
+From your perspective, which activities most effectively support external engagement for the network and the H2H approach?
+
+- External communications 
+- Events at global/HQ levels 
+- Deployment 
+- Other 
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ16"
+
+SQ16 <- generate_current_question(question_preface)
+
+SQ16 <- SQ16 %>%
+  mutate(
+    SQ16_Rank_External_Engagement_Approach_Deployment_Rank = 0,
+    SQ16_Rank_External_Engagement_Approach_External_Rank = 0,
+    SQ16_Rank_External_Engagement_Approach_Events_Rank = 0
+  )
+
+for(row_num in 1:nrow(SQ16)) {
+  order_list <- unlist(strsplit(SQ16[row_num,2], ","))
+  rank_list <- match(c("Deployment ", "Events at global/HQ levels ", "External communications "), order_list)
+  SQ16[row_num,4] <- 3 - rank_list[1] + 1
+  SQ16[row_num,5] <- 3 - rank_list[2] + 1
+  SQ16[row_num,6] <- 3 - rank_list[3] + 1
+}
+
+
+generate_rank_plot <- function(question_vector, title, offset_1 = 0.83, offset_2 = 0.92) {
+  
+  current_question <- question_vector
+
+  count_table <- data_frame(rank = c(3,2,1), count = c(0,0,0))
+
+  for(rank in count_table$rank) {
+    count_table$count[count_table$rank == rank] <- length(which(current_question==rank))
+  }
+
+  count_table <- count_table %>% 
+    mutate(
+      percent = count/length(current_question),
+      display = row_number()
+    )
+
+  overview_dataframe <- count_table
+
+count_barplot <- ggplot(overview_dataframe, aes_string(x = colnames(overview_dataframe)[1], y = colnames(overview_dataframe)[3])) +
+  theme_minimal() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "none",
+    axis.title.y = element_blank(),
+    axis.text.x = element_blank()
+  ) +
+  geom_col(
+    aes(y=1),
+    color=NA,
+    fill = "grey",
+    alpha=.15
+  ) +
+  geom_col(
+    color=NA,
+    fill = "#7045ff"
+  ) +
+  coord_flip() +
+  labs(title = paste(title, " (Average Rank: ", round(mean(current_question),2), ", 1 = Low, 3 = High)"),y = "Count (Percent of Respondents)") +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_1, 
+      label = overview_dataframe[[2]],
+      color = "#1a1a1a",
+      fontface = 2,
+      size = 3.5
+  ) +
+  annotate(
+      "text", 
+      x = overview_dataframe[[1]], 
+      y = offset_2, 
+      label = sprintf("(%0.2f%%)", overview_dataframe[[3]]*100),
+      color = "#1a1a1a",
+      size = 3.5
+  )
+
+return(count_barplot)
+  
+}
+
+cat("</br>")
+cat("</br>")
+
+generate_rank_plot(SQ16$SQ16_Rank_External_Engagement_Approach_Deployment_Rank, "Rank of Deployment in Supporting Engagement")
+
+cat("</br>")
+cat("</br>")
+
+generate_rank_plot(SQ16$SQ16_Rank_External_Engagement_Approach_External_Rank, "Rank of External Comms in Supporting Engagement")
+
+cat("</br>")
+cat("</br>")
+
+generate_rank_plot(SQ16$SQ16_Rank_External_Engagement_Approach_Events_Rank, "Rank of Events in Supporting Engagement")
+
+cat("</br>")
+
+generate_open_response_list(question_preface)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 17
+
+Which external channels do you use to engage with the network?
+
+- Social media 
+- Website 
+- Public newsletter 
+- Events 
+- Other
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ17"
+
+cat("</br>")
+
+generate_question_type_overview_plot(question_preface, "External Channels Used to Engage With The Network?")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 18
+
+From your perspective, in the context of fund activations, which activities most effectively support external engagement?
+
+- Communications package 
+- Brokering with stakeholders (end-users, donors, partners…) 
+- Deployment 
+- Other
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ18"
+
+cat("</br>")
+
+generate_question_type_overview_plot(question_preface, "Activities Which Support External Engagement")
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
+
+### Question 19
+
+Would you like to make any other suggestions concerning the H2H Network’s brokering and facilitation activities?
+
+
+```{r echo=FALSE, results = 'asis'}
+
+question_preface <- "SQ19"
+
+cat("</br>")
+
+generate_open_response_list(question_preface, TRUE)
+
+cat("</br>")
+cat("</br>")
+cat("</br>")
+cat("</br>")
+
+```
