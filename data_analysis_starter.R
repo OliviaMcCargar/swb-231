@@ -51,8 +51,8 @@ table(coalescedRev)
 
 uniformDonorMapping = c("institutional donors"="institutional donors",
                         "insitutional donors" ="institutional donors",
-                        "sub-grants from ngos or un agencies"="sub-grants from ngos or un agencies",
-                        "sub-grants from other ingos or un agencies"="sub-grants from ngos or un agencies",
+                        "sub-grants from ngos or un agencies"="sub-grants from NGOs or UN agencies",
+                        "sub-grants from other ingos or un agencies"="sub-grants from NGOs or UN agencies",
                         "foundations"="foundations",
                         "membership fees"="membership fees",
                         "funds (hif, start etc.)"="funds (hif, start etc.)",
@@ -219,14 +219,14 @@ uniformMapping = tolower(c("foundation"="foundation",
                    "independent non-governmental organization (e.g. association, 501.c, registered charity...)"=
                      "NGO",
                    "non governmental organisations"="NGO",
-                   "incorporated or hosted agency (ngo status)"="hosted project",
-                   "hosted project (e.g. in an ngo or another entity)"="hosted project",
+                   "incorporated or hosted agency (ngo status)"="NGO hosted project",
+                   "hosted project (e.g. in an ngo or another entity)"="NGO hosted project",
                    "other (please specify)"="other",
                    "other"="other",
                    "social enterprise (e.g. b-corp, co-op, cic...)"="social enterprise",
                    "social enterprise"="social enterprise",
                    "charity"="NGO",
-                   "commercial entity"="NGO"))
+                   "commercial entity"="commercial entity"))
 
 
 for (i in 1:length(numLegalStatus2019)){
