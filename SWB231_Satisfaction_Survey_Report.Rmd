@@ -95,10 +95,10 @@ generate_summary_plot <- function(question_preface, title) {
         size = 3
     )
     
-    filename <- paste(title, ".png")
-    pth <- file.path(getwd(), "reports", filename)
+    filename <- paste0(title, ".png")
+    pth <- file.path(getwd(), "reports", "graphs", filename)
     
-    number_line %<% ggsave(pth)
+    ggsave(pth)
   
     return(number_line)
 }
@@ -160,10 +160,10 @@ count_barplot <- ggplot(overview_dataframe, aes_string(x = colnames(overview_dat
       size = 3.5
   )
     
-    filename <- paste(title, ".png")
-    pth <- file.path(getwd(), "reports", filename)
+    filename <- paste0(title, ".png")
+    pth <- file.path(getwd(), "reports", "graphs", filename)
     
-    count_barplot %<% ggsave(pth)
+    ggsave(pth)
   
     return(count_barplot)
 }
@@ -233,10 +233,10 @@ count_barplot <- ggplot(overview_dataframe, aes_string(x = colnames(overview_dat
       size = 3.5
   )
 
-    filename <- paste(title, ".png")
-    pth <- file.path(getwd(), "reports", filename)
+    filename <- paste0(title, ".png")
+    pth <- file.path(getwd(), "reports", "graphs", filename)
     
-    count_barplot %<% ggsave(pth)
+    ggsave(pth, width = 7, height = 3)
   
     return(count_barplot)
 }
@@ -351,10 +351,10 @@ generate_question_type_overview_plot <- function(question_preface, title, offset
       size = 3.5
   )
   
-  filename <- paste(title, ".png")
-  pth <- file.path(getwd(), "reports", filename)
+  filename <- paste0(title, ".png")
+  pth <- file.path(getwd(), "reports", "graphs", filename)
     
-  overview_barplot %<% ggsave(pth)
+  ggsave(pth)
   
   return(overview_barplot)
 }
@@ -781,7 +781,7 @@ cat("</br>")
 cat("</br>")
 cat("</br>")
 
-generate_count_plot(question_preface, "Overall Quality of Support by H2H Core TEam on Fund Activation Process Count")
+generate_count_plot(question_preface, "Overall Quality of Support by H2H Core Team on Fund Activation Process Count")
 
 cat("</br>")
 cat("</br>")
@@ -953,6 +953,11 @@ count_barplot <- ggplot(overview_dataframe, aes_string(x = colnames(overview_dat
       color = "#1a1a1a",
       size = 3.5
   )
+
+  filename <- paste0(title, ".png")
+  pth <- file.path(getwd(), "reports", "graphs", filename)
+    
+  ggsave(pth, width = 7, height = 2)
 
 return(count_barplot)
   
