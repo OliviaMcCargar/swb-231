@@ -94,6 +94,11 @@ generate_summary_plot <- function(question_preface, title) {
         fontface = 2,
         size = 3
     )
+    
+    filename <- paste(title, ".png")
+    pth <- file.path(getwd(), "reports", filename)
+    
+    number_line %<% ggsave(pth)
   
     return(number_line)
 }
@@ -154,6 +159,11 @@ count_barplot <- ggplot(overview_dataframe, aes_string(x = colnames(overview_dat
       color = "#1a1a1a",
       size = 3.5
   )
+    
+    filename <- paste(title, ".png")
+    pth <- file.path(getwd(), "reports", filename)
+    
+    count_barplot %<% ggsave(pth)
   
     return(count_barplot)
 }
@@ -222,6 +232,11 @@ count_barplot <- ggplot(overview_dataframe, aes_string(x = colnames(overview_dat
       color = "#1a1a1a",
       size = 3.5
   )
+
+    filename <- paste(title, ".png")
+    pth <- file.path(getwd(), "reports", filename)
+    
+    count_barplot %<% ggsave(pth)
   
     return(count_barplot)
 }
@@ -335,6 +350,11 @@ generate_question_type_overview_plot <- function(question_preface, title, offset
       color = "#1a1a1a",
       size = 3.5
   )
+  
+  filename <- paste(title, ".png")
+  pth <- file.path(getwd(), "reports", filename)
+    
+  overview_barplot %<% ggsave(pth)
   
   return(overview_barplot)
 }
